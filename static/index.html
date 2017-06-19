@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>WebRTC video chat</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script></script>
+<script src="bower_components/adapter.js/adapter.js"></script>
+<script src="bower_components/kurento-utils/js/kurento-utils.js"></script>
+<script src="js/index.js"></script>
+<style>
+button, submit {border:none;} 
+body{
+ margin: 0;
+ padding: 0;
+ height: 100%;
+}
+#container{
+  min-height: 100%;
+  position: relative;
+}
+#head{
+ background-color: #E3F09B;
+ height: 400px;
+}
+#mainPart{
+ background-color: #f6f1ed;
+ min-height: 550px;
+ padding-top: 3%; 
+ padding-left: 2%;
+ padding-right: 2%;
+ padding-bottom: 200px;
+}
+#mainPart p{
+ font-size: 1.15em;
+}
+#footer{
+ background-color: #E3F09B;
+ width: 100%;
+ position: absolute;
+ height: 200px;
+ padding-top: 150px;
+ padding-left: 50px;
+}
+#createJoin{
+ padding: 30px;
+ background-color: #e3e0cf; 
+ display: inline-block;
+ border-radius: 6px;
+ float: right;
+ margin-top: 5%;
+ margin-right: 5%;
+}
+#roomName{
+ padding: 8px;
+ width: 350px;
+}
+#JoinRoomName{
+ padding: 8px;
+ width: 350px;
+}
+.crjoin{
+ width: 350px;
+ border-radius: 6px;
+}
+#joinRoom{
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #3fb0ac;
+  text-decoration: none;
+  box-shadow: 0px 0px 0px #3fb0ac;
+}
+
+#joinRoom:hover{
+  background-color: green;
+}
+
+
+#createRoom{
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #fc3c83;
+  text-decoration: none;
+}
+#createRoom:hover{
+  background-color: red;
+}
+@media only screen and (max-width: 500px) {
+   #roomName{
+   padding: 4px;
+   width: 200px;
+   }
+   #JoinRoomName{
+   padding: 4px;
+   width: 200px;
+   }
+   .crjoin{
+   width: 200px;
+   border-radius: 4px;
+   }
+   #createJoin{
+   padding: 20px;
+   border-radius: 4px;
+   margin-right: 0 auto;
+}
+}
+
+</style>
+<script type="text/javascript">
+
+</script>
+
+</head>
+
+<body>
+<div id="container">
+<div id="head">
+<div id="createJoin">
+<p><input type="text" id="roomName" placeholder="Type the name of room"></p>
+<p><button class="crjoin" id="createRoom">Create a room</button></p>
+<p><input type="text" id="JoinRoomName" placeholder="Type the name of room"></p>
+<p><button class="crjoin"id="joinRoom">Join a room</button></p>
+
+ 
+</div>
+</div>
+<div id="mainPart">
+<p>
+WebRTC is an open source technology that enables web browsers with Real-Time Communications (RTC) capabilities
+via JavaScript APIs. It has been conceived as a peer-to-peer technology where browsers can directly communicate
+without the mediation of any kind of infrastructure. This model is enough for creating basic applications but features
+such as group communications, media stream recording, media broadcasting or media transcoding are difficult to
+implement on top of it. For this reason, many applications require using a media server.
+</p>
+<p>
+Conceptually, a WebRTC media server is just a kind of “multimedia middleware” (it is in the middle of the communicating
+peers) where media traffic pass through when moving from source to destinations. Media servers are capable
+of processing media streams and offering different types including groups communications (distributing the media
+stream one peer generates among several receivers, i.e. acting as Multi-Conference Unit, MCU), mixing (transforming
+several incoming stream into one single composite stream), transcoding (adapting codecs and formats between
+incompatible clients), recording (storing in a persistent way the media exchanged among peers), etc.
+</p>
+<p>
+At the heart of the Kurento architecture there is a media server called the Kurento Media Server (KMS). Kurento
+Media Server is based on pluggable media processing capabilities meaning that any of its provided features is a
+pluggable module that can be activated or deactivated. Moreover, developers can seamlessly create additional modules
+extending Kurento Media Server with new functionalities which can be plugged dynamically.
+</p>
+<p>
+Kurento Media Server provides, out of the box, group communications, mixing, transcoding, recording and playing.
+In addition, it also provides advanced modules for media processing including computer vision, augmented reality,
+alpha blending and much more.
+</p>
+</div>
+<div id="footer">
+<p id="copyRight">Copyright 2017</p>
+</div>
+</div>
+
+
+
+</body>
+<script>
+window.onload = function() {
+    console.log(rooms);
+   document.onkeypress=function(e){ 
+
+
+	
+	$(document).keypress(function handleKey(evt) {
+	if (evt.keyCode === 13 || evt.keyCode === 14){
+    var roomName = document.getElementById('roomName').value;
+	var joinRoomName = document.getElementById('JoinRoomName').value;
+	if(roomName != '' && joinRoomName != ''){
+	
+	return;
+	}else {
+	
+	if(roomName != '' && joinRoomName == ''){
+	console.log(!inArray(roomName, rooms));
+	console.log(inArray(roomName, rooms));
+	
+      createRoom();
+	  
+	}else if(joinRoomName != '' && roomName == ''){
+    
+	 joinRoom();
+	}
+	
+	}
+	}
+    });
+	}
+	document.getElementById('roomName').focus();
+
+	
+	document.getElementById('createRoom').addEventListener('click', function(){
+	   createRoom();
+	});
+	document.getElementById('joinRoom').addEventListener('click', function(){
+	   joinRoom();
+	});
+
+
+}
+
+</script>
+
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

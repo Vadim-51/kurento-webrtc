@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>WebRTC video chat</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script></script>
+<script src="bower_components/adapter.js/adapter.js"></script>
+<script src="bower_components/kurento-utils/js/kurento-utils.js"></script>
+<script src="js/roommates.js"></script>
+<script src="js/index.js"></script>
+<style>
+button, submit {border:none;} 
+#board{
+ background-color: #E3F09B;
+ height: 400px;
+}
+#main{
+ background-color: #f6f1ed;
+ position: relative;
+ padding-top: 15px;
+ padding-bottom: 15px;
+}
+#footer{
+ background-color: #E3F09B;
+ height: 200px;
+ padding-top: 150px;
+ padding-left: 50px;
+}
+#leaveRoom{
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 16px;
+  background: #fc3c83;
+  text-decoration: none;
+  width: 10%;
+  position: fixed;
+  z-index: 550;
+  top: .5%;
+  right: .5%;
+}
+#leaveRoom:hover{
+  background-color: red;
+}
+#videoInput{
+  width: 100%;
+}
+#localVideoDiv{
+ position: fixed;
+ width: 10%;
+ bottom: .5%;
+ right: .5%;
+ z-index: 1000;
+ background: #373737;
+ display: inline-block;
+ padding-top: 5px;
+ padding-left: 5px;
+ padding-right: 5px;
+}
+#pause{
+ color: white;
+}
+#pause:hover{
+  cursor: pointer;
+}
+#volume{
+ color: white;
+ float: right;
+}
+#volume:hover{
+ cursor: pointer;
+}
+#remoteVideo{
+ position: relative;
+ padding: .5%;
+ width: 90%;
+ margin: 0 auto; 
+ min-height: 500px;
+}
+.wrappers{
+ background: #373737;
+ display: inline-block;
+ padding-top: 5px;
+ padding-left: 5px;
+ padding-right: 5px;
+}
+.remotePause{
+ color: white;
+}
+.remoteVolume{
+ color: white;
+ float: right;
+}
+.remotePause:hover{
+ cursor: pointer;
+}
+.remoteVolume:hover{
+ cursor: pointer;
+}
+
+</style>
+<script type="text/javascript">
+
+</script>
+
+</head>
+
+<body>
+<div><button class="crjoin" id="leaveRoom">Leave the room</button></div>
+<div id="board">
+
+</div>
+
+
+<div id="main">
+<div id="localVideoDiv">
+<video id="videoInput" autoplay controls></video>
+<p>
+<span id="pause" onclick="pausePlay('videoInput', 'pause')"><i class="material-icons">pause</i></span>
+<span id="volume" onclick="volumeMute('videoInput', 'volume')"><i class="material-icons">volume_up</i></span>
+
+</p>
+</div>
+<div id="remoteVideo"></div>
+</div>
+<div id="footer">
+<p id="copyRight">Copyright 2017</p>
+<p><button id="testButton" onclick="testResult()">Test</button></p>
+</div>
+<script>
+window.onload = function(){
+    $('html, body').animate({
+    scrollTop: $("#main").offset().top
+    }, 300);
+	var vid = document.getElementById('videoInput');
+ document.getElementById('leaveRoom').addEventListener('click', leaveRoom);
+}
+
+</script>
+
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
