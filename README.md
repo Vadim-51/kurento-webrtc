@@ -9,8 +9,6 @@ sudo npm install -g bower
 Then:
 cd <main directory with server.js>/
 npm install
-cd <main directory with server.js>/static/
-bower install
 npm start
 
 Be shure to run Kurento media server:
